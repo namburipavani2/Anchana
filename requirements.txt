@@ -1,0 +1,8 @@
+streamlit
+pandas
+httpx
+matplotlib
+seaborn
+pymongo
+dnspython
+openpyxl
