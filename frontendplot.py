@@ -11,6 +11,41 @@ st.write("Upload clean data structures, configure variable constraints, and eval
 
 BACKEND_URL = "https://anchana.vercel.app"
 
+# ===================================================================== #
+# 🔐 ACCOUNT REGISTRATION INTERFACE COMPONENT                          #
+# ===================================================================== #
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🔐 Create User Account")
+
+# Visual input fields for credentials
+new_username = st.sidebar.text_input("Enter New Username", key="register_user")
+new_password = st.sidebar.text_input("Enter New Password", type="password", key="register_password")
+
+if st.sidebar.button("⚙️ Register Profile Account", type="secondary"):
+    if new_username and new_password:
+        # Construct payload format to send to your live Vercel backend
+        registration_payload = {
+            "username": new_username,
+            "password": new_password
+        }
+        try:
+            with httpx.Client(timeout=10.0) as client:
+                # Calls the new registration route we added to your Vercel backend.py script
+                response = client.post(f"{BACKEND_URL}/api/register", json=registration_payload)
+                
+            if response.status_code == 200:
+                st.sidebar.success(f"🎉 {response.json()['message']}")
+            else:
+                # Display errors (e.g., if username already exists in MongoDB)
+                error_detail = response.json().get('detail', 'Registration failed')
+                st.sidebar.error(f"⚠️ {error_detail}")
+                
+        except Exception as conn_error:
+            st.sidebar.error(f"Could not connect to backend server: {str(conn_error)}")
+    else:
+        st.sidebar.warning("Please fill out both the username and password fields.")
+st.sidebar.markdown("---")
+
 # Initialize persistence caches for computed calculations across dropdown state shifts
 if "calculation_results" not in st.session_state:
     st.session_state.calculation_results = None
