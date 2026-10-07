@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontendplot.py",
+      "src": "backend.py",
       "use": "@vercel/python"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "frontendplot.py"
+      "source": "/(.*)",
+      "destination": "backend.py"
     }
   ]
 }
