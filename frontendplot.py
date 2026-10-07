@@ -9,7 +9,7 @@ st.set_page_config(page_title="Auto-ML Workspace UI", layout="wide")
 st.title("📊 Anchana_1.0")
 st.write("Upload clean data structures, configure variable constraints, and evaluate Scikit-Learn models in real time.")
 
-BACKEND_URL = "http://127.0.0.1:8003"
+BACKEND_URL = https://anchana.vercel.app
 
 # Initialize persistence caches for computed calculations across dropdown state shifts
 if "calculation_results" not in st.session_state:
