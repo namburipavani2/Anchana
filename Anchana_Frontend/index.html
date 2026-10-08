@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 Anchana_1.0 | Auto-ML Workspace</title>
+    <!-- ➕ IMPORT LIGHTWEIGHT CHART.JS VIA HIGH-SPEED CDN LINK -->
+    <script src="https://jsdelivr.net"></script>
     <style>
         :root { --bg: #0e1117; --card: #161b22; --text: #c9d1d9; --primary: #238636; --accent: #58a6ff; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+        .container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
         sidebar { background: var(--card); padding: 20px; border-radius: 8px; border: 1px solid #30363d; height: fit-content; }
         main { background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid #30363d; }
         h1, h2, h3 { color: #fff; margin-top: 0; }
@@ -16,27 +18,26 @@
         button:hover { background: #2ea043; }
         .metric-card { background: #21262d; padding: 15px; border-radius: 6px; border: 1px solid #30363d; margin-bottom: 20px; }
         .kpi { font-size: 24px; font-weight: bold; color: var(--accent); }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 30px; }
         th, td { padding: 12px; border: 1px solid #30363d; text-align: left; }
         th { background: #21262d; }
+        .chart-container { background: #21262d; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-top: 25px; max-height: 400px; }
+        .profile-box { background: #1f242c; padding: 12px; border-radius: 6px; border: 1px dashed #388bfd; margin-bottom: 15px; font-size: 13px; line-height: 1.6; }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Sidebar Controls -->
-                <!-- Sidebar Controls -->
         <sidebar>
             <h2>📊 Anchana_1.0</h2>
             <p>Configure variable constraints and evaluate models in real-time.</p>
             <hr style="border-color: #30363d;">
             
-            <!-- ➕ NEW ONBOARDING SIGNUP LAYER -->
-                         <!-- 🔐 UPDATED ONBOARDING SIGNUP LAYER -->
+            <!-- 🔐 CLEAN ONBOARDING SIGNUP LAYER WITH NO SUBMIT REBOOTS -->
             <div id="authSection">
                 <h3>🔐 Create Account</h3>
                 <input type="text" id="newUsername" placeholder="Enter New Username">
                 <input type="password" id="newPassword" placeholder="Enter New Password">
-                <!-- 🧠 Notice type="button" added below to stop page reload crashes -->
                 <button type="button" id="registerBtn" style="background-color: #58a6ff;">⚙️ Register Profile Account</button>
                 <hr style="border-color: #30363d;">
             </div>
@@ -45,6 +46,12 @@
             <div id="workspacePanel" style="display: none;">
                 <label>Upload Workspace File (.csv, .xlsx)</label>
                 <input type="file" id="fileInput" accept=".csv, .xlsx">
+
+                <!-- ➕ NEW DATASET PROFILE METRICS SIDEBAR CONTAINER -->
+                <div id="datasetProfileSection" style="display: none;">
+                    <h4>🔍 Dataset Profile Metrics</h4>
+                    <div class="profile-box" id="profileMetricsContent"></div>
+                </div>
 
                 <div id="configSection" style="display:none;">
                     <label>Select Machine Learning Track</label>
@@ -57,16 +64,15 @@
                     <label>Choose Target Predictor Component (y)</label>
                     <select id="targetSelect"></select>
 
-                    <button id="executeBtn">⚙️ Execute Model Pipeline</button>
+                    <button type="button" id="executeBtn">⚙️ Execute Model Pipeline</button>
                 </div>
             </div>
-
         </sidebar>
 
         <!-- Main Display Panel -->
         <main>
             <h1>⚡ Live Computational Results</h1>
-            <div id="statusMessage">Please upload a dataset file in the left sidebar to initialize the engine parameters.</div>
+            <div id="statusMessage">Please create an account or upload a file in the sidebar to initialize the pipeline parameters.</div>
             
             <div id="resultsDashboard" style="display:none;">
                 <div class="metric-card">
@@ -80,6 +86,17 @@
                         <thead><tr id="tableHeader"></tr></thead>
                         <tbody id="tableBody"></tbody>
                     </table>
+                </div>
+
+                <!-- ➕ NEW PERFORMANCE CHART VISUALIZATION LAYOUT BLOCKS -->
+                <h3>📈 Performance Distribution Visualisation</h3>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+
+                <h3 style="margin-top: 30px;">⏱️ Model Speed Analysis (Compute Latency)</h3>
+                <div class="chart-container">
+                    <canvas id="speedChart"></canvas>
                 </div>
             </div>
         </main>
