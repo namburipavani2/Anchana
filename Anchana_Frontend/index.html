@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Anchana_1.0 | Auto-ML Workspace</title>
+    <style>
+        :root { --bg: #0e1117; --card: #161b22; --text: #c9d1d9; --primary: #238636; --accent: #58a6ff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+        sidebar { background: var(--card); padding: 20px; border-radius: 8px; border: 1px solid #30363d; height: fit-content; }
+        main { background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid #30363d; }
+        h1, h2, h3 { color: #fff; margin-top: 0; }
+        input, select, button { width: 100%; padding: 10px; margin: 10px 0 20px 0; background: #21262d; border: 1px solid #30363d; color: #fff; border-radius: 6px; box-sizing: border-box; }
+        button { background: var(--primary); cursor: pointer; font-weight: bold; border: none; }
+        button:hover { background: #2ea043; }
+        .metric-card { background: #21262d; padding: 15px; border-radius: 6px; border: 1px solid #30363d; margin-bottom: 20px; }
+        .kpi { font-size: 24px; font-weight: bold; color: var(--accent); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #30363d; text-align: left; }
+        th { background: #21262d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Controls -->
+        <sidebar>
+            <h2>📊 Anchana_1.0</h2>
+            <p>Configure variable constraints and evaluate models in real-time.</p>
+            <hr style="border-color: #30363d;">
+            
+            <label>Upload Workspace File (.csv, .xlsx)</label>
+            <input type="file" id="fileInput" accept=".csv, .xlsx">
+
+            <div id="configSection" style="display:none;">
+                <label>Select Machine Learning Track</label>
+                <select id="trackSelect">
+                    <option value="R">Regression (R)</option>
+                    <option value="C">Classification (C)</option>
+                    <option value="G">Clustering Unsupervised (G)</option>
+                </select>
+
+                <label>Choose Target Predictor Component (y)</label>
+                <select id="targetSelect"></select>
+
+                <button id="executeBtn">⚙️ Execute Model Pipeline</button>
+            </div>
+        </sidebar>
+
+        <!-- Main Display Panel -->
+        <main>
+            <h1>⚡ Live Computational Results</h1>
+            <div id="statusMessage">Please upload a dataset file in the left sidebar to initialize the engine parameters.</div>
+            
+            <div id="resultsDashboard" style="display:none;">
+                <div class="metric-card">
+                    <div>⌛ Overall Execution Runtime</div>
+                    <div class="kpi" id="runtimeKPI">0.0000 Sec</div>
+                </div>
+
+                <h3>📊 Evaluation Score & Runtime Matrix</h3>
+                <div style="overflow-x: auto;">
+                    <table id="metricsTable">
+                        <thead><tr id="tableHeader"></tr></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
