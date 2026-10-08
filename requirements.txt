@@ -1,8 +1,8 @@
-streamlit
+fastapi
+uvicorn
 pandas
-httpx
-matplotlib
-seaborn
-pymongo
-dnspython
+numpy
 openpyxl
+scikit-learn
+python-multipart
+httpx

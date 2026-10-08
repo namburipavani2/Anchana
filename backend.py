@@ -31,7 +31,18 @@ from sklearn.neural_network import MLPRegressor, MLPClassifier
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title="ML Computational Engine API", version="1.0.0")
+
+# ➕ Required CORS settings for full-fledge cross-platform calls
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # =====================================================================
 # 🕒 CENTRALIZED TIMING WRAPPER FUNCTION (RUNS ONCE)
