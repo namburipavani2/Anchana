@@ -9,7 +9,7 @@ st.set_page_config(page_title="Auto-ML Workspace UI", layout="wide")
 st.title("📊 Anchana_1.0")
 st.write("Upload clean data structures, configure variable constraints, and evaluate Scikit-Learn models in real time.")
 
-BACKEND_URL = "https://anchana.vercel.app"
+BACKEND_URL = "https://vercel.app""
 
 # ===================================================================== #
 # 🔐 ACCOUNT REGISTRATION INTERFACE COMPONENT                          #

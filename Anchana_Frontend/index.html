@@ -24,27 +24,41 @@
 <body>
     <div class="container">
         <!-- Sidebar Controls -->
+                <!-- Sidebar Controls -->
         <sidebar>
             <h2>📊 Anchana_1.0</h2>
             <p>Configure variable constraints and evaluate models in real-time.</p>
             <hr style="border-color: #30363d;">
             
-            <label>Upload Workspace File (.csv, .xlsx)</label>
-            <input type="file" id="fileInput" accept=".csv, .xlsx">
-
-            <div id="configSection" style="display:none;">
-                <label>Select Machine Learning Track</label>
-                <select id="trackSelect">
-                    <option value="R">Regression (R)</option>
-                    <option value="C">Classification (C)</option>
-                    <option value="G">Clustering Unsupervised (G)</option>
-                </select>
-
-                <label>Choose Target Predictor Component (y)</label>
-                <select id="targetSelect"></select>
-
-                <button id="executeBtn">⚙️ Execute Model Pipeline</button>
+            <!-- ➕ NEW ONBOARDING SIGNUP LAYER -->
+            <div id="authSection">
+                <h3>🔐 Create Senior Account</h3>
+                <input type="text" id="newUsername" placeholder="Enter New Username">
+                <input type="password" id="newPassword" placeholder="Enter New Password">
+                <button id="registerBtn" style="background-color: #58a6ff;">⚙️ Register Profile Account</button>
+                <hr style="border-color: #30363d;">
             </div>
+
+            <!-- Wrap workspace panel in a hidden wrapper until authentication clears -->
+            <div id="workspacePanel" style="display: none;">
+                <label>Upload Workspace File (.csv, .xlsx)</label>
+                <input type="file" id="fileInput" accept=".csv, .xlsx">
+
+                <div id="configSection" style="display:none;">
+                    <label>Select Machine Learning Track</label>
+                    <select id="trackSelect">
+                        <option value="R">Regression (R)</option>
+                        <option value="C">Classification (C)</option>
+                        <option value="G">Clustering Unsupervised (G)</option>
+                    </select>
+
+                    <label>Choose Target Predictor Component (y)</label>
+                    <select id="targetSelect"></select>
+
+                    <button id="executeBtn">⚙️ Execute Model Pipeline</button>
+                </div>
+            </div>
+
         </sidebar>
 
         <!-- Main Display Panel -->

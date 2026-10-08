@@ -1,6 +1,41 @@
 // ⚡ POINT DIRECTLY TO YOUR SUCCESSFUL LIVE RENDER BACKEND
 const BACKEND_URL = "https://anchana.onrender.com";
 
+// 🔐 Event Listener for Senior Registration Operations
+document.getElementById('registerBtn').addEventListener('click', async () => {
+    const userInp = document.getElementById('newUsername').value;
+    const passInp = document.getElementById('newPassword').value;
+
+    if (!userInp || !passInp) {
+        alert("Please fill out both the username and password fields.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: userInp, password: passInp })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(`🎉 ${data.message}`);
+            // Reveal the main processing pipeline dashboard panel
+            document.getElementById('authSection').style.display = "none";
+            document.getElementById('workspacePanel').style.display = "block";
+            document.getElementById('statusMessage').innerText = "Account verified. Please upload a file to initialize training parameters.";
+        } else {
+            alert(`⚠️ Error: ${data.detail || "Registration failed"}`);
+        }
+    } catch (err) {
+        alert(`Could not connect to backend server: ${err.message}`);
+    }
+});
+
+
+
 let uploadedFile = null;
 
 // Event Listener for File Uploads

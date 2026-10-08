@@ -214,3 +214,20 @@ async def evaluate_pipeline(
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8003)
+
+    # ===================================================================== #
+# 🔐 AUTHENTICATION ROUTE LAYER FOR SENIOR SIGNUP
+# ===================================================================== #
+@app.post("/api/register")
+async def register_user(payload: dict):
+    username = payload.get("username")
+    password = payload.get("password")
+    
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="Username and password criteria are required.")
+    
+    # Simulating connection save to your MongoDB collection instances
+    # Replace this block with your active mongo client insert logic if needed:
+    # db.users.insert_one({"username": username, "password": password})
+    
+    return {"status": "success", "message": f"Account profile for {username} initialized successfully!"}
