@@ -1,22 +1,46 @@
-// ⚡ POINT DIRECTLY TO YOUR SUCCESSFUL LIVE RENDER BACKEND
-const BACKEND_URL = "https://onrender.com";
+// ⚡ POINT DIRECTLY TO YOUR LIVE RENDER BACKEND NODE
+const BACKEND_URL = "https://anchana.onrender.com";
 
 let uploadedFile = null;
+let isSignUpMode = true; // State tracker for form toggles
 let activePerformanceChart = null;
 let activeSpeedChart = null;
 
-// 🔐 Event Listener for Account Registration Operations
-document.getElementById('registerBtn').addEventListener('click', async () => {
-    const userInp = document.getElementById('newUsername').value;
-    const passInp = document.getElementById('newPassword').value;
+// Auth View Mode Interaction Toggle Switcher
+document.getElementById('toggleAuthLink').addEventListener('click', () => {
+    isSignUpMode = !isSignUpMode;
+    const title = document.getElementById('authTitle');
+    const submitBtn = document.getElementById('authSubmitBtn');
+    const link = document.getElementById('toggleAuthLink');
+    
+    if (isSignUpMode) {
+        title.innerText = "🔐 Create Account";
+        submitBtn.innerText = "Register Profile Account";
+        submitBtn.style.backgroundColor = "#58a6ff";
+        link.innerText = "Already a member? Sign In instead";
+    } else {
+        title.innerText = "🔑 Member Sign In";
+        submitBtn.innerText = "Sign In securely";
+        submitBtn.style.backgroundColor = "#238636";
+        link.innerText = "New member? Create an account instead";
+    }
+});
+
+// Authentication Form Action API Pipeline Router
+document.getElementById('authSubmitBtn').addEventListener('click', async () => {
+    const userInp = document.getElementById('authUsername').value;
+    const passInp = document.getElementById('authPassword').value;
 
     if (!userInp || !passInp) {
-        alert("Please fill out both the username and password fields.");
+        alert("Please completely fill out both user credential fields.");
         return;
     }
 
+    // Direct routing targeting endpoints dynamically depending on active state
+    const targetEndpoint = isSignUpMode ? "/api/register" : "/api/login";
+
     try {
-        const response = await fetch(`${BACKEND_URL}/api/register`, {
+        const response = await fetch(`${BACKEND_URL}${targetEndpoint}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username: userInp, password: passInp })
@@ -25,24 +49,24 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         const data = await response.json();
 
         if (response.ok) {
-            alert(`🎉 ${data.message}`);
+            alert(`🎉 Access Granted: ${data.message || "Authorized successfully."}`);
             document.getElementById('authSection').style.display = "none";
             document.getElementById('workspacePanel').style.display = "block";
-            document.getElementById('statusMessage').innerText = "Account verified. Please upload a file to initialize training parameters.";
+            document.getElementById('statusMessage').innerText = "Security verified. Drop a clean file (.csv, .xlsx) inside the workspace folder selector.";
         } else {
-            alert(`⚠️ Error: ${data.detail || "Registration failed"}`);
+            alert(`⚠️ Access Denied: ${data.detail || "Authentication sequence mismatch."}`);
         }
     } catch (err) {
-        alert(`Could not connect to backend server: ${err.message}`);
+        alert(`Could not connect to backend authorization instances: ${err.message}`);
     }
 });
 
-// 🔍 Event Listener for Dataset File Profiling Endpoint
+// 🔍 DATASET STRUCTURAL METADATA METRICS PROFILER LISTENER
 document.getElementById('fileInput').addEventListener('change', async (e) => {
     uploadedFile = e.target.files[0];
     if (!uploadedFile) return;
 
-    document.getElementById('statusMessage').innerText = "Profiling incoming dataset metadata parameters...";
+    document.getElementById('statusMessage').innerText = "Profiling incoming dataset metadata parameters via remote servers...";
     document.getElementById('datasetProfileSection').style.display = "none";
     
     const formData = new FormData();
@@ -50,23 +74,23 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
 
     try {
         const response = await fetch(`${BACKEND_URL}/analyze-file`, { method: "POST", body: formData });
-        if (!response.ok) throw new Error("Metadata profile extraction failed.");
+        if (!response.ok) throw new Error("Metadata profiling failed on computational node clusters.");
         
         const data = await response.json();
         
-        // ➕ RENDER METADATA PROFILE PARAMETERS ON THE SIDEBAR BLOCK
+        // Render Dataset Metadata parameters onto the UI sidebar summary view container block
         const profileBox = document.getElementById('profileMetricsContent');
         profileBox.innerHTML = `
-            <strong>Shape Matrix:</strong> ${data.shape[0]} rows × ${data.shape[1]} cols<br>
+            <strong>Shape Matrix:</strong> ${data.shape[0]} rows × ${data.shape[1]} columns<br>
             <strong>Total Elements Size:</strong> ${data.size}<br>
             <strong>Numerical Parameters:</strong> ${data.numerical_features}<br>
             <strong>Categorical Parameters:</strong> ${data.categorical_features}<br>
-            <strong>Missing Columns:</strong> ${data.null_features}<br>
-            <strong>Duplicate Rows:</strong> ${data.duplicate_rows}
+            <strong>Missing Value Columns:</strong> ${data.null_features}<br>
+            <strong>Identified Duplicate Rows:</strong> ${data.duplicate_rows}
         `;
         document.getElementById('datasetProfileSection').style.display = "block";
         
-        // Populate Target Dropdown Component Options
+        // Populate operational target drop-down choices list arrays
         const targetSelect = document.getElementById('targetSelect');
         targetSelect.innerHTML = "";
         data.columns.forEach(col => {
@@ -77,17 +101,17 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
         });
 
         document.getElementById('configSection').style.display = "block";
-        document.getElementById('statusMessage').innerText = "Dataset profile metrics calculated successfully. Configure track variables and execute modeling.";
+        document.getElementById('statusMessage').innerText = "Data architecture matrices structured completely. Configure analytical track configurations.";
     } catch (err) {
-        document.getElementById('statusMessage').innerText = `Backend node processing error: ${err.message}`;
+        document.getElementById('statusMessage').innerText = `Data Profiling failure protocol triggered: ${err.message}`;
     }
 });
 
-// ⚙️ Event Listener for Compute Pipeline Execution Route
+// Compute Engine modeling pipeline execution handler
 document.getElementById('executeBtn').addEventListener('click', async () => {
     if (!uploadedFile) return;
 
-    document.getElementById('statusMessage').innerText = "Training processing workflows across continuous backend instances...";
+    document.getElementById('statusMessage').innerText = "Training processing workflows across isolated backend instances...";
     document.getElementById('resultsDashboard').style.display = "none";
 
     const problemType = document.getElementById('trackSelect').value;
@@ -99,23 +123,20 @@ document.getElementById('executeBtn').addEventListener('click', async () => {
 
     try {
         const response = await fetch(`${BACKEND_URL}/evaluate`, { method: "POST", body: formData });
-        if (!response.ok) throw new Error("Computational Evaluation Failure.");
+        if (!response.ok) throw new Error("Modeling suite run crash encountered.");
 
         const data = await response.json();
         
-        // Render Execution Time KPI Card Block
         document.getElementById('runtimeKPI').innerText = `${data.total_pipeline_time_sec} Sec`;
-        
-        // Build Evaluation Score & Metric Data Table Grid Arrays
         renderTable(data.results);
         
-        // ➕ RENDER PERFORMANCE GRAPH VISUALIZATION ARRAYS VIA CHART.JS
+        // 📈 EXECUTE CANVAS RENDERING INTERACTION TASKS VIA CHART.JS
         renderCharts(data.results, problemType);
 
         document.getElementById('statusMessage').innerText = "Execution completed successfully!";
         document.getElementById('resultsDashboard').style.display = "block";
     } catch (err) {
-        document.getElementById('statusMessage').innerText = `Processing Error: ${err.message}`;
+        document.getElementById('statusMessage').innerText = `Computational Error: ${err.message}`;
     }
 });
 
@@ -137,52 +158,44 @@ function renderTable(results) {
     });
 }
 
-// ➕ NEW DYNAMIC BAR GRAPH RENDERING INTERACTION CONTROLLER
+// DYNAMIC BAR PLOTS SYSTEM INTERACTION LAYER
 function renderCharts(results, trackCode) {
     const models = Object.keys(results);
     const runtimes = models.map(m => parseFloat(results[m]['Execution_Time_Sec']));
-    
-    // Determine target accuracy splits depending on Supervised tracks
+
     const accuracyMetricName = (trackCode === 'R') ? 'Acc_Test_R2' : 'Acc_Test';
     const trainAccuracyScores = models.map(m => parseFloat(results[m]['Acc_Train'] || 0));
     const testAccuracyScores = models.map(m => parseFloat(results[m][accuracyMetricName] || 0));
 
-    // Reset previous chart instances to clear old cache rendering overlaps
     if (activePerformanceChart) activePerformanceChart.destroy();
     if (activeSpeedChart) activeSpeedChart.destroy();
 
-    // 1. Draw Performance Distributions Bar Graphs
+    // 1. Plot Model Evaluation Split Scores
     const ctxPerf = document.getElementById('performanceChart').getContext('2d');
     activePerformanceChart = new Chart(ctxPerf, {
         type: 'bar',
         data: {
             labels: models,
             datasets: [
-                { label: 'Train Score Accuracy', data: trainAccuracyScores, backgroundColor: '#388bfd' },
-                { label: 'Test Split Evaluation Metric', data: testAccuracyScores, backgroundColor: '#56a2f3' }
+                { label: 'Train Accuracy Score', data: trainAccuracyScores, backgroundColor: '#388bfd' },
+                { label: 'Test Accuracy Score', data: testAccuracyScores, backgroundColor: '#56a2f3' }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: { y: { min: 0, max: 1.05, grid: { color: '#30363d' } }, x: { grid: { display: false } } },
-            plugins: { legend: { labels: { color: '#c9d1d9' } } }
+            scales: { y: { min: 0, max: 1.05 } }
         }
     });
 
-    // 2. Draw Speed Latency Bar Graphs
+    // 2. Plot Model Latency Run Speed Metrics
     const ctxSpeed = document.getElementById('speedChart').getContext('2d');
     activeSpeedChart = new Chart(ctxSpeed, {
         type: 'bar',
         data: {
             labels: models,
-            datasets: [{ label: 'Execution Latency (Seconds)', data: runtimes, backgroundColor: '#ff4b4b' }]
+            datasets: [{ label: 'Execution Speed (Seconds)', data: runtimes, backgroundColor: '#ff4b4b' }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { grid: { color: '#30363d' } }, x: { grid: { display: false } } },
-            plugins: { legend: { labels: { color: '#c9d1d9' } } }
-        }
+        options: { responsive: true, maintainAspectRatio: false }
     });
 }
