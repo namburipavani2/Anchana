@@ -1,5 +1,6 @@
 // ⚡ POINT DIRECTLY TO YOUR LIVE RENDER BACKEND NODE
-const BACKEND_URL = "https://anchana.onrender.com";
+const BACKEND_URL = "https://onrender.com";
+
 
 let uploadedFile = null;
 let isSignUpMode = true; // State tracker for form toggles
