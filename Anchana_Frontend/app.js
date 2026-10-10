@@ -1,5 +1,5 @@
 // ⚡ POINT DIRECTLY TO YOUR LIVE RENDER BACKEND NODE
-const BACKEND_URL = "https://anchana.onrender.com";
+const BACKEND_URL = "https://anchana.onrender.com"
 
 
 let uploadedFile = null;
